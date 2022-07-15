@@ -12,6 +12,9 @@ import Hello from "./ETC/Hello";
 import UserList from "./ETC/UserList";
 import CreateUser from "./ETC/CreateUser";
 import IterationSample from "./6장/IterationSample";
+import Counter2 from "./8장/Counter2";
+import Info from "./8장/info";
+import Average from "./8장/Average";
 
 function countActiveUsers(users){
   console.log('활성 사용자 수 세기');
@@ -106,8 +109,20 @@ function countActiveUsers(users){
 //   }
 // }
 const App = () => {
+  // const [visible, setVisible] = useState(false)
+  // return (
+  //   <div>
+  //     <button onClick={() => {
+  //       setVisible(!visible)
+  //     }}>
+  //       {visible?'숨기기':'보이기'}
+  //     </button>
+  //     <hr/>
+  //     {visible && <Info/>}
+  //   </div>
+  // );
   return (
-    <IterationSample/>
+    <Average/>
   )
 }
 export default App;
