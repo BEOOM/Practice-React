@@ -15,6 +15,9 @@ import IterationSample from "./6장/IterationSample";
 import Counter2 from "./8장/Counter2";
 import Info from "./8장/info";
 import Average from "./8장/Average";
+import TodoTemplate from "./components/TodoTemplate";
+import TodoInsert from "./components/TodoInsert";
+import TodoList from "./components/TodoList";
 
 function countActiveUsers(users){
   console.log('활성 사용자 수 세기');
@@ -121,8 +124,61 @@ const App = () => {
   //     {visible && <Info/>}
   //   </div>
   // );
+
+  const [todos, setTodos] = useState([
+    {
+      id:1,
+      text:'리',
+      checked:true,
+    },
+    {
+      id:2,
+      text:'액',
+      checked:true,
+    },
+    {
+      id:3,
+      text:'트',
+      checked:false,
+    }
+  ])
+
+  const nextId = useRef(4);
+  const onInsert = useCallback(
+    text => {
+      const todo = {
+        id:nextId.current,
+        text,
+        checked:false,
+      }
+      setTodos(todos.concat(todo));
+      nextId.current += 1;
+    },
+    [todos]
+  )
+
+  const onToggle = useCallback(
+    id => {
+      setTodos(
+        todos.map(todo => 
+          todo.id === id? {...todo, checked: !todo.checked} : todo,
+          ),
+      );
+    },
+    [todos],
+  );
+
+  const onRemove = useCallback(
+    id => {
+      setTodos(todos.filter(todo => todo.id !== id));
+    },
+    [todos],
+  )
   return (
-    <Average/>
+    <TodoTemplate>
+      <TodoInsert onInsert={onInsert}/>
+      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle}/>
+    </TodoTemplate>
   )
 }
 export default App;
