@@ -1,27 +1,33 @@
-import React, {Component, useRef, useState, useMemo, useCallback} from "react";
-import MyComponent from "./3장/MyComponent";
-import Counter from "./3장/Counter";
-import Say from "./3장/Say";
-import EventPracticeClass from "./4장/EventPracticeClass";
-import EventPracticeFn from "./4장/EventPracticeFn";
-import EventPracticeFn2 from "./4장/EventPracticeFn";
-import ValidationSample from "./5장/ValidationSample";
-import ScrollBox from "./5장/ScrollBox";
-import InputSample from "./ETC/InputSample";
-import Hello from "./ETC/Hello";
-import UserList from "./ETC/UserList";
-import CreateUser from "./ETC/CreateUser";
-import IterationSample from "./6장/IterationSample";
-import Counter2 from "./8장/Counter2";
-import Info from "./8장/info";
-import Average from "./8장/Average";
-import TodoTemplate from "./components/TodoTemplate";
-import TodoInsert from "./components/TodoInsert";
-import TodoList from "./components/TodoList";
+import React, {
+  Component,
+  useRef,
+  useState,
+  useMemo,
+  useCallback,
+} from 'react';
+import MyComponent from './3장/MyComponent';
+import Counter from './3장/Counter';
+import Say from './3장/Say';
+import EventPracticeClass from './4장/EventPracticeClass';
+import EventPracticeFn from './4장/EventPracticeFn';
+import EventPracticeFn2 from './4장/EventPracticeFn';
+import ValidationSample from './5장/ValidationSample';
+import ScrollBox from './5장/ScrollBox';
+import InputSample from './ETC/InputSample';
+import Hello from './ETC/Hello';
+import UserList from './ETC/UserList';
+import CreateUser from './ETC/CreateUser';
+import IterationSample from './6장/IterationSample';
+import Counter2 from './8장/Counter2';
+import Info from './8장/info';
+import Average from './8장/Average';
+import TodoTemplate from './components/TodoTemplate';
+import TodoInsert from './components/TodoInsert';
+import TodoList from './components/TodoList';
 
-function countActiveUsers(users){
+function countActiveUsers(users) {
   console.log('활성 사용자 수 세기');
-  return users.filter(user => user.active).length
+  return users.filter((user) => user.active).length;
 }
 
 // function App() {
@@ -87,7 +93,6 @@ function countActiveUsers(users){
 //   },[users]);
 //   const count = useMemo(() => countActiveUsers(users), [users]);
 
-
 //   return (
 //     <>
 //     <CreateUser
@@ -125,60 +130,75 @@ const App = () => {
   //   </div>
   // );
 
-  const [todos, setTodos] = useState([
-    {
-      id:1,
-      text:'리',
-      checked:true,
-    },
-    {
-      id:2,
-      text:'액',
-      checked:true,
-    },
-    {
-      id:3,
-      text:'트',
-      checked:false,
-    }
-  ])
+  // const [todos, setTodos] = useState([
+  //   {
+  //     id: 1,
+  //     text: '리',
+  //     checked: true,
+  //   },
+  //   {
+  //     id: 2,
+  //     text: '액',
+  //     checked: true,
+  //   },
+  //   {
+  //     id: 3,
+  //     text: '트',
+  //     checked: false,
+  //   },
+  // ]);
+
+  const [todos, setTodos] = useState(createBulkTodos);
 
   const nextId = useRef(4);
-  const onInsert = useCallback(
-    text => {
-      const todo = {
-        id:nextId.current,
-        text,
-        checked:false,
-      }
-      setTodos(todos.concat(todo));
-      nextId.current += 1;
-    },
-    [todos]
-  )
+  const onInsert = useCallback((text) => {
+    const todo = {
+      id: nextId.current,
+      text,
+      checked: false,
+    };
+    setTodos((todos) => todos.concat(todo));
+    nextId.current += 1;
+  }, []);
 
-  const onToggle = useCallback(
-    id => {
-      setTodos(
-        todos.map(todo => 
-          todo.id === id? {...todo, checked: !todo.checked} : todo,
-          ),
-      );
-    },
-    [todos],
-  );
+  const onToggle = useCallback((id) => {
+    setTodos((todos) =>
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, checked: !todo.checked } : todo,
+      ),
+    );
+  }, []);
 
-  const onRemove = useCallback(
-    id => {
-      setTodos(todos.filter(todo => todo.id !== id));
-    },
-    [todos],
-  )
+  const onRemove = useCallback((id) => {
+    setTodos((todos) => todos.filter((todo) => todo.id !== id));
+  }, []);
+
+  function createBulkTodos() {
+    const array = [];
+    for (let i = 1; i <= 2500; i++) {
+      array.push({
+        id: i,
+        text: (
+          <>
+            <span class="co31">할</span>
+            <span class="co31">일</span>
+            <span class="co49">$</span>
+            <span class="co33">i</span>
+            <span class="co49"></span>
+            <span class="co31"></span>
+          </>
+        ),
+        checked: false,
+      });
+    }
+    return array;
+  }
+
   return (
     <TodoTemplate>
-      <TodoInsert onInsert={onInsert}/>
-      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle}/>
+      <TodoInsert onInsert={onInsert} />
+      <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
     </TodoTemplate>
-  )
-}
+  );
+};
 export default App;
