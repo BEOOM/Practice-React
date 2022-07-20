@@ -24,6 +24,9 @@ import Average from './8장/Average';
 import TodoTemplate from './components/TodoTemplate';
 import TodoInsert from './components/TodoInsert';
 import TodoList from './components/TodoList';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './13장/Home';
+import About from './13장/About';
 
 function countActiveUsers(users) {
   console.log('활성 사용자 수 세기');
@@ -199,6 +202,10 @@ const App = () => {
       <TodoInsert onInsert={onInsert} />
       <TodoList todos={todos} onRemove={onRemove} onToggle={onToggle} />
     </TodoTemplate>
+    // <div>
+    //   <Route path="/" component={Home} exact={true} />
+    //   <Route path={['/about', '/info']} component={About} />
+    // </div>
   );
 };
 export default App;
